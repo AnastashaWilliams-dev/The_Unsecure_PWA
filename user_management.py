@@ -46,17 +46,19 @@ def insertFeedback(feedback):
     con.commit()
     con.close()
 
-
 def listFeedback():
     con = sql.connect("database_files/database.db")
     cur = con.cursor()
     data = cur.execute("SELECT * FROM feedback").fetchall()
     con.close()
+
+    # Open the file safely using 'with' — automatically closes when done
     with open("templates/partials/success_feedback.html", "w") as f:
-    f.write("<p>Feedback submitted successfully!</p>")
-    # file is automatically closed here
-    for row in data:
-        f.write("<p>\n")
-        f.write(f"{row[1]}\n")
-        f.write("</p>\n")
-    f.close()
+        # Write the initial success message
+        f.write("<p>Feedback submitted successfully!</p>\n")
+
+        # Write all feedback from the database
+        for row in data:
+            f.write("<p>\n")
+            f.write(f"{row[1]}\n")
+            f.write("</p>\n")
