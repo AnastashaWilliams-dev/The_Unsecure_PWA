@@ -52,7 +52,9 @@ def listFeedback():
     cur = con.cursor()
     data = cur.execute("SELECT * FROM feedback").fetchall()
     con.close()
-    f = open("templates/partials/success_feedback.html", "w")
+    with open("templates/partials/success_feedback.html", "w") as f:
+    f.write("<p>Feedback submitted successfully!</p>")
+    # file is automatically closed here
     for row in data:
         f.write("<p>\n")
         f.write(f"{row[1]}\n")
